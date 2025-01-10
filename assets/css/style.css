@@ -95,6 +95,12 @@ button:hover {
   margin-bottom: 10px;
 }
 
+#category-list {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
 
 /* Dark mode */
 

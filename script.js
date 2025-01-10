@@ -33,10 +33,11 @@ const totalQuestionsSpan = document.getElementById("total-questions");
 
 // On init
 window.addEventListener("DOMContentLoaded", () => {
-  startBtn.addEventListener("click", startQuiz);
+  startBtn.addEventListener("click", () => startQuiz('Math'));
   nextBtn.addEventListener("click", nextQuestion);
   restartBtn.addEventListener("click", restartQuiz);
 
+  renderCategories(questions);
   loadBestScore();
   bestScoreValue.textContent = bestScore;
 });
@@ -52,16 +53,22 @@ function saveBestScore() {
   localStorage.setItem("bestScore", bestScore.toString());
 }
 
-function startQuiz() {
+let parsedQuestions; // MUTABLE ARRAY;
+
+function startQuiz(category) {
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
 
-  questions = shuffle(questions); // RANDOMIZE QUESTION ORDER ON QUIZ START
+  parsedQuestions = shuffle(questions); // RESET AND RANDOMIZE QUESTION ORDER ON QUIZ START
+  console.log(parsedQuestions);
+  if (category != undefined) parsedQuestions = questionFilter(parsedQuestions, category);
 
   currentQuestionIndex = 0;
   score = 0;
 
-  totalQuestionsSpan.textContent = questions.length;
+  totalQuestionsSpan.textContent = parsedQuestions.length;
+
+  
 
   showQuestion();
 }
@@ -70,7 +77,7 @@ function showQuestion() {
   // Stop any previous timer
   clearInterval(timerId);
 
-  const q = questions[currentQuestionIndex];
+  const q = parsedQuestions[currentQuestionIndex];
   questionText.textContent = q.text;
   questionIndice.textContent = q.indice;
   questionIndice.style.display = "none";
@@ -110,7 +117,7 @@ questionIndice.style.display = "block";
 });
 
 function selectAnswer(index, btnClicked) {
-  const q = questions[currentQuestionIndex];
+  const q = parsedQuestions[currentQuestionIndex];
 
   clearInterval(timerId);
 
@@ -141,7 +148,7 @@ function lockAnswers() {
 
 function nextQuestion() {
   currentQuestionIndex++;
-  if (currentQuestionIndex < questions.length) {
+  if (currentQuestionIndex < parsedQuestions.length) {
     showQuestion();
   } else {
     endQuiz();
@@ -152,7 +159,7 @@ function endQuiz() {
   questionScreen.style.display = "none";
   resultScreen.style.display = "block";
 
-  scoreText.textContent = `Votre score : ${score} / ${questions.length}`;
+  scoreText.textContent = `Votre score : ${score} / ${parsedQuestions.length}`;
 
   if (score > bestScore) {
     bestScore = score;
@@ -173,6 +180,13 @@ function shuffle(array) {
   return array.sort((a, b) => 0.5 - Math.random())
 }
 
+// FILTER QUESTIONS BY CATEGORY
+function questionFilter(array, category) {
+  const filteredArray = array.filter(q => q.category == category);
+  console.log('filtered Array', filteredArray);
+  return filteredArray;
+}
+
 // Dark mode
 const darkModeToggle = document.getElementById("darkModeToggle");
 darkModeToggle.addEventListener("click", () => {
@@ -185,3 +199,16 @@ darkModeToggle.addEventListener("click", () => {
     darkModeToggle.textContent = "🌙 Dark Mode";
   }
 });
+
+// Render category list
+function renderCategories(questionList) {
+  let categories = new Set();
+  questionList.forEach(q => categories.add(q.category));
+
+  for (let c of categories) {
+    const btn = document.createElement('button');
+    btn.innerText += c;
+    btn.addEventListener('click', () => startQuiz(c))
+    document.querySelector('#category-list').appendChild(btn);
+  }
+}
