@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <title>Quiz Dynamique</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
-    <h1>Quiz Dynamique</h1>
-    <button id="darkModeToggle">🌙 Dark Mode</button>
+    <h1 id="quiz-title">Quiz Dynamique</h1>
+    <div id="options">
+      <button id="darkModeToggle">🌙 Dark Mode</button>
+      <button id="languageToggle">EN</button>
+    </div>
+    
     <div id="intro-screen">
-      <p class="notice">
-        Testez vos connaissances en quelques questions chronométrées !
-      </p>
-      <p>Meilleur score : <span id="best-score-value">0</span></p>
+      <p class="notice" id="quiz-notice">Testez vos connaissances en quelques questions chronométrées !</p>
+      <p><span class="best-score-label">Meilleur score :</span> <span id="best-score-value">0</span></p>
       <button id="start-btn">Commencer le quiz</button>
       <button id="practice-btn">Entrainement (MODE INFINI)</button>
-      <h3>Quiz Par Category:</h3>
-      <div id="category-list">
-
-      </div>
+      <h3 id="quiz-category-label">Quiz Par Catégorie:</h3>
+      <div id="category-list"></div>
     </div>
 
     <div id="question-screen" style="display: none">
@@ -29,20 +29,25 @@
       <p id="question-text"></p>
       <div id="answers"></div>
       <div id="question-indice"></div>
-      <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
+      <div class="timer-div">
+        <span class="time-remaining-label">Temps restant :</span> 
+        <span id="time-left">0</span> 
+      </div>
+      
       <button id="end-btn">Stop</button>
       <button id="btn-indice">Cliquez pour avoir un indice</button>
       <button id="next-btn" class="hidden">Question suivante</button>
     </div>
 
     <div id="result-screen" style="display: none">
-      <h2>Résultat final</h2>
+      <h2 id="result-title">Résultat final</h2>
       <p id="score-text"></p>
-      <p>Meilleur score : <span id="best-score-end">0</span></p>
+      <p><span class="best-score-label">Meilleur score :</span> <span id="best-score-value">0</span></p>
+
       <button id="restart-btn">Recommencer</button>
     </div>
 
-    <script src="../assets/js/questions.js"></script>
-    <script type="module" src="../script.js"></script>
+    <script src="/script.js"></script>
+    <script src="/assets/js/questions.js"></script>
   </body>
 </html>

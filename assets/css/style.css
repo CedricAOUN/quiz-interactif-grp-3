@@ -73,7 +73,7 @@ button:hover {
   background-color: #ffcdd2 !important; /* rouge clair */
 }
 
-#timer-div {
+.timer-div {
   margin-top: 10px;
   font-weight: bold;
   color: #d32f2f; /* rouge foncé */
@@ -104,7 +104,7 @@ button:hover {
 
 /* Dark mode */
 
-#darkModeToggle {
+#options {
 position: absolute;
 right: 50px;
 top: 50px;
