@@ -176,6 +176,8 @@ darkModeToggle.addEventListener("click", () => {
     darkModeToggle.textContent = "🌙 Dark Mode";
   }
 });
+
+
 // Fonction principale pour créer un bouton de partage sur Twitter
 function createTwitterShareButton(score, url) {
   // Vérifiez que le DOM est chargé avant d'ajouter le bouton
@@ -215,6 +217,5 @@ function createTwitterShareButton(score, url) {
 }
 
 // Exemple d'utilisation
-const score = 150; // Remplacez par votre score
 const url = "https://example.com"; // Remplacez par l'URL de votre jeu
-createTwitterShareButton(score, url);
+createTwitterShareButton(localStorage.getItem("bestScore"), url);
