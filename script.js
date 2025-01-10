@@ -163,3 +163,16 @@ function restartQuiz() {
 function shuffle(array) {
   return array.sort((a, b) => 0.5 - Math.random())
 }
+
+// Dark mode
+const darkModeToggle = document.getElementById("darkModeToggle");
+darkModeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  
+  // Change le texte du bouton
+  if (document.body.classList.contains("dark-mode")) {
+    darkModeToggle.textContent = "☀️ Light Mode";
+  } else {
+    darkModeToggle.textContent = "🌙 Dark Mode";
+  }
+});
