@@ -176,3 +176,45 @@ darkModeToggle.addEventListener("click", () => {
     darkModeToggle.textContent = "🌙 Dark Mode";
   }
 });
+// Fonction principale pour créer un bouton de partage sur Twitter
+function createTwitterShareButton(score, url) {
+  // Vérifiez que le DOM est chargé avant d'ajouter le bouton
+  document.addEventListener('DOMContentLoaded', () => {
+      // Créer un bouton
+      const button = document.createElement('button');
+      button.textContent = "Partager mon score sur Twitter";
+      
+      // Ajouter un style au bouton
+      button.style.backgroundColor = "#1DA1F2";
+      button.style.color = "white";
+      button.style.border = "none";
+      button.style.padding = "10px 20px";
+      button.style.borderRadius = "5px";
+      button.style.fontSize = "16px";
+      button.style.cursor = "pointer";
+      button.style.transition = "background-color 0.3s ease";
+
+      // Ajouter des événements de style au survol
+      button.addEventListener('mouseover', () => {
+          button.style.backgroundColor = "#0d8cd8";
+      });
+      button.addEventListener('mouseout', () => {
+          button.style.backgroundColor = "#1DA1F2";
+      });
+
+      // Ajouter l'événement de clic
+      button.addEventListener('click', () => {
+          const text = `J'ai obtenu un score de ${score} points ! 🎉 Pouvez-vous battre mon score ? ${url}`;
+          const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+          window.open(twitterUrl, '_blank');
+      });
+
+      // Ajouter le bouton au corps du document
+      document.body.appendChild(button);
+  });
+}
+
+// Exemple d'utilisation
+const score = 150; // Remplacez par votre score
+const url = "https://example.com"; // Remplacez par l'URL de votre jeu
+createTwitterShareButton(score, url);
