@@ -35,6 +35,8 @@ const currentQuestionIndexSpan = document.getElementById(
 const totalQuestionsSpan = document.getElementById("total-questions");
 
 let isInfiniteMode = false;
+let selectedAnswerHistory = [];
+let timeElapstedPerQuestion = [];
 
 // On init
 window.addEventListener("DOMContentLoaded", () => {
@@ -70,6 +72,8 @@ function saveBestScore() {
 let parsedQuestions; // MUTABLE ARRAY;
 
 function startQuiz(category) {
+  selectedAnswerHistory = [];
+  timeElapstedPerQuestion = [];
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
 
@@ -80,8 +84,6 @@ function startQuiz(category) {
   score = 0;
 
   totalQuestionsSpan.textContent = parsedQuestions.length;
-
-  
 
   showQuestion();
   isInfiniteMode ? progressText.style.display = "none" : progressText.style.display = "block";
@@ -143,6 +145,7 @@ questionIndice.style.display = "block";
 
 function selectAnswer(index, btnClicked) {
   const q = parsedQuestions[currentQuestionIndex];
+  timeElapstedPerQuestion.push(q.timeLimit - timeLeft);
 
   clearInterval(timerId);
 
@@ -150,8 +153,10 @@ function selectAnswer(index, btnClicked) {
   if (index === q.correct) {
     score++;
     btnClicked.classList.add("correct");
+    selectedAnswerHistory.push(true);
   } else {
     btnClicked.classList.add("wrong");
+    selectedAnswerHistory.push(false);
   }
 
   // Marquer la vraie réponse
@@ -185,6 +190,19 @@ function endQuiz() {
   resultScreen.style.display = "block";
 
   scoreText.textContent = `Votre score : ${score} / ${parsedQuestions.length}`;
+
+  document.getElementById('history').innerHTML = ''; // RESET HISTORY;
+  // ADD HISTORY OF CORRECT/INCORRECT ANSWERS.
+  if (selectedAnswerHistory.length > 0) {
+    selectedAnswerHistory.forEach((b, index) => {
+      const listItem = document.createElement('li');
+      listItem.innerText = `Question ${index + 1} - ${b ? 'Correct!' : 'Incorrect!'}`;
+      listItem.classList.add(b ? 'correct' : 'wrong');
+      document.getElementById('history').appendChild(listItem);
+    })
+  }
+  // UPDATE AVERAGE/MEAN
+  document.getElementById('average').innerText = findAverage(timeElapstedPerQuestion) + ' secondes';
 
   if (score > bestScore) {
     bestScore = score;
@@ -281,3 +299,11 @@ function createTwitterShareButton(score, url) {
 // Exemple d'utilisation
 const url = "https://superduperquiz.com"; // Remplacez par l'URL de votre jeu
 createTwitterShareButton(localStorage.getItem("bestScore"), url);
+
+
+// FIND AVERAGE/MEAN
+function findAverage(numbers) {
+  console.log(numbers);
+  const sum = numbers.reduce((acc, num) => acc + num, 0);
+  return (sum / numbers.length).toFixed();
+}
