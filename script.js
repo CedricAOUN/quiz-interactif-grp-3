@@ -35,6 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
   nextBtn.addEventListener("click", nextQuestion);
   restartBtn.addEventListener("click", restartQuiz);
 
+  renderCategories(questions);
   loadBestScore();
   bestScoreValue.textContent = bestScore;
 });
@@ -189,3 +190,16 @@ darkModeToggle.addEventListener("click", () => {
     darkModeToggle.textContent = "🌙 Dark Mode";
   }
 });
+
+// Render category list
+function renderCategories(questionList) {
+  let categories = new Set();
+  questionList.forEach(q => categories.add(q.category));
+
+  for (let c of categories) {
+    const btn = document.createElement('button');
+    btn.innerText += c;
+    btn.addEventListener('click', () => startQuiz(c))
+    document.querySelector('#category-list').appendChild(btn);
+  }
+}
