@@ -30,5 +30,14 @@ let questions = [
     timeLimit: 5,
     category: 'Animaux',
     indice: "C'est un son doux souvent entendu la nuit."
+  },
+  {
+    img: "https://cdn.britannica.com/02/152302-050-1A984FCB/African-savanna-elephant.jpg",
+    text: "C'est quoi ?",
+    answers: [ "Tour Eiffel", "Chat", "Chien", "Elephant"],
+    correct: 3,
+    timeLimit: 5,
+    category: 'Animaux',
+    indice: "Dumbo"
   }
 ];

@@ -98,6 +98,17 @@ function showQuestion() {
   
   currentQuestionIndexSpan.textContent = currentQuestionIndex + 1;
 
+  // CLEAR OLD IMG
+  const oldImg = document.querySelector('.img-question')
+  if (oldImg) oldImg.remove();
+  // ADD IMAGE IF IT EXISTS
+  if (q.img) {
+    const img = document.createElement('img');
+    img.src = q.img;
+    img.classList.add('img-question');
+    document.getElementById('img-container').appendChild(img);
+  }
+
   // Refresh answers
   answersDiv.innerHTML = "";
   q.answers.forEach((answer, index) => {
