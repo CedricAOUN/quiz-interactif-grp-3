@@ -31,7 +31,7 @@ const totalQuestionsSpan = document.getElementById("total-questions");
 
 // On init
 window.addEventListener("DOMContentLoaded", () => {
-  startBtn.addEventListener("click", startQuiz);
+  startBtn.addEventListener("click", () => startQuiz('Math'));
   nextBtn.addEventListener("click", nextQuestion);
   restartBtn.addEventListener("click", restartQuiz);
 
@@ -50,16 +50,22 @@ function saveBestScore() {
   localStorage.setItem("bestScore", bestScore.toString());
 }
 
-function startQuiz() {
+let parsedQuestions; // MUTABLE ARRAY;
+
+function startQuiz(category) {
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
 
-  questions = shuffle(questions); // RANDOMIZE QUESTION ORDER ON QUIZ START
+  parsedQuestions = shuffle(questions); // RESET AND RANDOMIZE QUESTION ORDER ON QUIZ START
+  console.log(parsedQuestions);
+  if (category != undefined) parsedQuestions = questionFilter(parsedQuestions, category);
 
   currentQuestionIndex = 0;
   score = 0;
 
-  totalQuestionsSpan.textContent = questions.length;
+  totalQuestionsSpan.textContent = parsedQuestions.length;
+
+  
 
   showQuestion();
 }
@@ -68,7 +74,7 @@ function showQuestion() {
   // Stop any previous timer
   clearInterval(timerId);
 
-  const q = questions[currentQuestionIndex];
+  const q = parsedQuestions[currentQuestionIndex];
   questionText.textContent = q.text;
 
   currentQuestionIndexSpan.textContent = currentQuestionIndex + 1;
@@ -101,7 +107,7 @@ function showQuestion() {
 }
 
 function selectAnswer(index, btnClicked) {
-  const q = questions[currentQuestionIndex];
+  const q = parsedQuestions[currentQuestionIndex];
 
   clearInterval(timerId);
 
@@ -132,7 +138,7 @@ function lockAnswers() {
 
 function nextQuestion() {
   currentQuestionIndex++;
-  if (currentQuestionIndex < questions.length) {
+  if (currentQuestionIndex < parsedQuestions.length) {
     showQuestion();
   } else {
     endQuiz();
@@ -143,7 +149,7 @@ function endQuiz() {
   questionScreen.style.display = "none";
   resultScreen.style.display = "block";
 
-  scoreText.textContent = `Votre score : ${score} / ${questions.length}`;
+  scoreText.textContent = `Votre score : ${score} / ${parsedQuestions.length}`;
 
   if (score > bestScore) {
     bestScore = score;
@@ -162,6 +168,13 @@ function restartQuiz() {
 // RANDOMISE AN ARRAY
 function shuffle(array) {
   return array.sort((a, b) => 0.5 - Math.random())
+}
+
+// FILTER QUESTIONS BY CATEGORY
+function questionFilter(array, category) {
+  const filteredArray = array.filter(q => q.category == category);
+  console.log('filtered Array', filteredArray);
+  return filteredArray;
 }
 
 // Dark mode
