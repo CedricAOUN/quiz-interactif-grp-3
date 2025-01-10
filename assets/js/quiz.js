@@ -1,4 +1,3 @@
-// quiz.js
 import {
   getElement,
   showElement,
@@ -9,11 +8,7 @@ import {
   lockAnswers,
   markCorrectAnswer,
 } from "./dom.js";
-import {
-  loadFromLocalStorage,
-  saveToLocalStorage,
-  startTimer,
-} from "./utils.js";
+import { loadFromLocalStorage, saveToLocalStorage, startTimer } from "./utils.js";
 
 console.log("Quiz JS loaded...");
 
@@ -54,6 +49,9 @@ const restartBtn = getElement("#restart-btn");
 const scoreText = getElement("#score-text");
 const timeLeftSpan = getElement("#time-left");
 
+const timerBarContainer = getElement("#timer-bar-container");
+const timerBar = getElement("#timer-bar");
+
 const currentQuestionIndexSpan = getElement("#current-question-index");
 const totalQuestionsSpan = getElement("#total-questions");
 
@@ -90,16 +88,32 @@ function showQuestion() {
   });
 
   nextBtn.classList.add("hidden");
+  resetTimer(q.timeLimit);
 
-  timeLeftSpan.textContent = q.timeLimit;
   timerId = startTimer(
     q.timeLimit,
-    (timeLeft) => setText(timeLeftSpan, timeLeft),
+    (timeLeft) => {
+      setText(timeLeftSpan, timeLeft);
+      updateTimerBar(q.timeLimit, timeLeft);
+    },
     () => {
+      // Temps écoulé
       lockAnswers(answersDiv);
+      markCorrectAnswer(answersDiv, q.correct);
       nextBtn.classList.remove("hidden");
+      updateTimerBar(q.timeLimit, 0); // Barre à 0
     }
   );
+}
+
+function resetTimer(timeLimit) {
+  setText(timeLeftSpan, timeLimit);
+  timerBar.style.width = "100%";
+}
+
+function updateTimerBar(totalTime, timeLeft) {
+  const percentage = (timeLeft / totalTime) * 100;
+  timerBar.style.width = `${percentage}%`;
 }
 
 function selectAnswer(index, btn) {
