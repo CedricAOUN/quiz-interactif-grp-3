@@ -89,3 +89,49 @@ button:hover {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
+
+
+/* Dark mode */
+
+#darkModeToggle {
+position: absolute;
+right: 50px;
+top: 50px;
+}
+
+body.dark-mode {
+  background: #121212;
+  color:white;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+  color:white;
+}
+
+body.dark-mode #intro-screen {
+  background-color:#232323;
+  color: white;
+}
+
+body.dark-mode .notice {
+  color: white;
+}
+
+body.dark-mode #progress {
+  color: white;
+}
+
+body.dark-mode #answers button {
+  background-color: rgb(143, 143, 143);
+  color: black;
+}
+
+body.dark-mode #question-screen {
+  background-color: #232323;
+  color: white;
+}
+
+body.dark-mode #result-screen {
+  background-color:black;
+  color: white;
+}

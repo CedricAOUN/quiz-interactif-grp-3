@@ -172,3 +172,16 @@ function restartQuiz() {
 
   bestScoreValue.textContent = bestScore;
 }
+
+// Dark mode
+const darkModeToggle = document.getElementById("darkModeToggle");
+darkModeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  
+  // Change le texte du bouton
+  if (document.body.classList.contains("dark-mode")) {
+    darkModeToggle.textContent = "☀️ Light Mode";
+  } else {
+    darkModeToggle.textContent = "🌙 Dark Mode";
+  }
+});
