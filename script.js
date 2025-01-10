@@ -183,6 +183,7 @@ function restartQuiz() {
   resultScreen.style.display = "none";
   questionScreen.style.display = "none";
   introScreen.style.display = "block";
+  isInfiniteMode = false;
 
   bestScoreValue.textContent = bestScore;
 }
