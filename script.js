@@ -20,6 +20,7 @@ const answersDiv = document.getElementById("answers");
 const btnIndice = document.getElementById("btn-indice");
 const questionIndice = document.getElementById("question-indice");
 const nextBtn = document.getElementById("next-btn");
+const endBtn = document.getElementById("end-btn");
 const startBtn = document.getElementById("start-btn");
 const restartBtn = document.getElementById("restart-btn");
 const practiceBtn = document.getElementById("practice-btn");
@@ -32,12 +33,21 @@ const currentQuestionIndexSpan = document.getElementById(
 );
 const totalQuestionsSpan = document.getElementById("total-questions");
 
+let isInfiniteMode = false;
+
 // On init
 window.addEventListener("DOMContentLoaded", () => {
-  startBtn.addEventListener("click", () => startQuiz('Math'));
-  practiceBtn.addEventListener("click", () => startQuiz(undefined, true));
-  nextBtn.addEventListener("click", nextQuestion);
+  startBtn.addEventListener("click", () => {
+    startQuiz();
+    isInfiniteMode = false;
+  });
+  practiceBtn.addEventListener("click", () => {
+    startQuiz(undefined);
+    isInfiniteMode = true;
+  });
+  nextBtn.addEventListener("click", () => nextQuestion());
   restartBtn.addEventListener("click", restartQuiz);
+  endBtn.addEventListener("click", () => restartQuiz());
 
   renderCategories(questions);
   loadBestScore();
@@ -57,12 +67,11 @@ function saveBestScore() {
 
 let parsedQuestions; // MUTABLE ARRAY;
 
-function startQuiz(category, isInfiniteMode) {
+function startQuiz(category) {
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
 
   parsedQuestions = shuffle(questions); // RESET AND RANDOMIZE QUESTION ORDER ON QUIZ START
-  console.log(parsedQuestions);
   if (category != undefined) parsedQuestions = questionFilter(parsedQuestions, category);
 
   currentQuestionIndex = 0;
@@ -72,10 +81,10 @@ function startQuiz(category, isInfiniteMode) {
 
   
 
-  showQuestion(isInfiniteMode);
+  showQuestion();
 }
 
-function showQuestion(isInfiniteMode) {
+function showQuestion() {
   // Stop any previous timer
   clearInterval(timerId);
 
@@ -118,7 +127,7 @@ btnIndice.addEventListener('click', () => {
 questionIndice.style.display = "block";
 });
 
-function selectAnswer(index, btnClicked, isInfiniteMode) {
+function selectAnswer(index, btnClicked) {
   const q = parsedQuestions[currentQuestionIndex];
 
   clearInterval(timerId);
@@ -148,7 +157,7 @@ function lockAnswers() {
   });
 }
 
-function nextQuestion(isInfiniteMode) {
+function nextQuestion() {
   currentQuestionIndex++;
   if (currentQuestionIndex < parsedQuestions.length) {
     showQuestion();
