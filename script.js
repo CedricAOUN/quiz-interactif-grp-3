@@ -27,6 +27,7 @@ const practiceBtn = document.getElementById("practice-btn");
 
 const scoreText = document.getElementById("score-text");
 const timeLeftSpan = document.getElementById("time-left");
+const progressText = document.getElementById("progress");
 
 const currentQuestionIndexSpan = document.getElementById(
   "current-question-index"
@@ -38,12 +39,13 @@ let isInfiniteMode = false;
 // On init
 window.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("click", () => {
-    startQuiz();
     isInfiniteMode = false;
+    startQuiz();
   });
   practiceBtn.addEventListener("click", () => {
-    startQuiz(undefined);
     isInfiniteMode = true;
+    startQuiz();
+    
   });
   nextBtn.addEventListener("click", () => nextQuestion());
   restartBtn.addEventListener("click", restartQuiz);
@@ -82,6 +84,7 @@ function startQuiz(category) {
   
 
   showQuestion();
+  isInfiniteMode ? progressText.style.display = "none" : progressText.style.display = "block";
 }
 
 function showQuestion() {
