@@ -1,21 +1,5 @@
 console.log("Quiz JS loaded...");
 
-const questions = [
-  {
-    text: "Quelle est la capitale de la France ?",
-    answers: ["Marseille", "Paris", "Lyon", "Bordeaux"],
-    correct: 1,
-    timeLimit: 10,
-  },
-  {
-    text: "Combien font 2 + 3 ?",
-    answers: ["3", "4", "5", "1"],
-    correct: 2,
-    timeLimit: 5,
-  },
-  // Ajoutez d’autres questions si besoin
-];
-
 // Variables
 let currentQuestionIndex = 0;
 let score = 0;
@@ -69,6 +53,8 @@ function saveBestScore() {
 function startQuiz() {
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
+
+  questions = shuffle(questions); // RANDOMIZE QUESTION ORDER ON QUIZ START
 
   currentQuestionIndex = 0;
   score = 0;
@@ -171,4 +157,9 @@ function restartQuiz() {
   introScreen.style.display = "block";
 
   bestScoreValue.textContent = bestScore;
+}
+
+// RANDOMISE AN ARRAY
+function shuffle(array) {
+  return array.sort((a, b) => 0.5 - Math.random())
 }
