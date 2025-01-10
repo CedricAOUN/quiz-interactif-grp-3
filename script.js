@@ -22,6 +22,7 @@ const questionIndice = document.getElementById("question-indice");
 const nextBtn = document.getElementById("next-btn");
 const startBtn = document.getElementById("start-btn");
 const restartBtn = document.getElementById("restart-btn");
+const practiceBtn = document.getElementById("practice-btn");
 
 const scoreText = document.getElementById("score-text");
 const timeLeftSpan = document.getElementById("time-left");
@@ -34,6 +35,7 @@ const totalQuestionsSpan = document.getElementById("total-questions");
 // On init
 window.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("click", () => startQuiz('Math'));
+  practiceBtn.addEventListener("click", () => startQuiz(undefined, true));
   nextBtn.addEventListener("click", nextQuestion);
   restartBtn.addEventListener("click", restartQuiz);
 
@@ -55,7 +57,7 @@ function saveBestScore() {
 
 let parsedQuestions; // MUTABLE ARRAY;
 
-function startQuiz(category) {
+function startQuiz(category, isInfiniteMode) {
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
 
@@ -70,10 +72,10 @@ function startQuiz(category) {
 
   
 
-  showQuestion();
+  showQuestion(isInfiniteMode);
 }
 
-function showQuestion() {
+function showQuestion(isInfiniteMode) {
   // Stop any previous timer
   clearInterval(timerId);
 
@@ -89,7 +91,7 @@ function showQuestion() {
   q.answers.forEach((answer, index) => {
     const btn = document.createElement("button");
     btn.textContent = answer;
-    btn.addEventListener("click", () => selectAnswer(index, btn));
+    btn.addEventListener("click", () => selectAnswer(index, btn, isInfiniteMode));
     answersDiv.appendChild(btn);
   });
 
@@ -116,7 +118,7 @@ btnIndice.addEventListener('click', () => {
 questionIndice.style.display = "block";
 });
 
-function selectAnswer(index, btnClicked) {
+function selectAnswer(index, btnClicked, isInfiniteMode) {
   const q = parsedQuestions[currentQuestionIndex];
 
   clearInterval(timerId);
@@ -146,12 +148,12 @@ function lockAnswers() {
   });
 }
 
-function nextQuestion() {
+function nextQuestion(isInfiniteMode) {
   currentQuestionIndex++;
   if (currentQuestionIndex < parsedQuestions.length) {
     showQuestion();
   } else {
-    endQuiz();
+    isInfiniteMode ? startQuiz() : endQuiz();
   }
 }
 
