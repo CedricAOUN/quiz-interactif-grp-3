@@ -27,6 +27,11 @@ button {
   transition: background-color 0.3s;
 }
 
+#btn-indice {
+ background-color: #2e7d32;
+ padding: 10px 10px;
+}
+
 button:hover {
   background-color: #1565c0;
 }

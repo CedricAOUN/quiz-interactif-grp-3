@@ -17,6 +17,8 @@ const bestScoreEnd = document.getElementById("best-score-end");
 
 const questionText = document.getElementById("question-text");
 const answersDiv = document.getElementById("answers");
+const btnIndice = document.getElementById("btn-indice");
+const questionIndice = document.getElementById("question-indice");
 const nextBtn = document.getElementById("next-btn");
 const startBtn = document.getElementById("start-btn");
 const restartBtn = document.getElementById("restart-btn");
@@ -70,7 +72,9 @@ function showQuestion() {
 
   const q = questions[currentQuestionIndex];
   questionText.textContent = q.text;
-
+  questionIndice.textContent = q.indice;
+  questionIndice.style.display = "none";
+  
   currentQuestionIndexSpan.textContent = currentQuestionIndex + 1;
 
   // Refresh answers
@@ -99,6 +103,11 @@ function showQuestion() {
     }
   }, 1000);
 }
+
+
+btnIndice.addEventListener('click', () => {
+questionIndice.style.display = "block";
+});
 
 function selectAnswer(index, btnClicked) {
   const q = questions[currentQuestionIndex];
